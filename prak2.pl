@@ -9,11 +9,11 @@ natSymb(s(X)) :- natSymb(X).
 linListe(nil).
 linListe(list(X,Xs)).
 
-%member(X,Ys) : Ys enthält das Element X.
+%member(X,Ys) : Ys enthält das Element X.
 prakmember(nil,nil).
 prakmember(X,Ys) :- linListe(list(X,Ys)), app(nil,X,Ys).
 
-%infix(Xs,Ys) : Ys enthält die Liste Xs.
+%infix(Xs,Ys) : Ys enthält die Liste Xs.
 infix(nil,nil).
 infix(Xs,Ys) :- linListe(list(X,Ys)), app(nil,Xs,Ys).
 
@@ -22,8 +22,8 @@ infix(Xs,Ys) :- linListe(list(X,Ys)), app(nil,Xs,Ys).
 
 
 
-n(X,Lb,Rb).
-binbaum(e).
+%n(X,Lb,Rb).
+binbaum(nil).
 binbaum(n(X,Lb,Rb)) :- binbaum(Lb), binbaum(Rb).
 
 root(n(W,Lb,Rb),b).
@@ -37,8 +37,8 @@ right(n(W,Lb,Rb),Rb).
 %- rechtem Teilbaum Rb.
 
 construct(nil,nil,nil,nil).
-construct(Root,Lb,Rb,binbaum(n(Root,Lb,Rb))).
+construct(Root,Lb,Rb,n(Root,Lb,Rb)):- binbaum(Lb), binbaum(Rb).
 
 %knotenanz(Xb,N) : N (nat. Zahl in symbolischer Darstellung) ist die Anzahl der Knoten des Baumes Xb.
 knotenanz(nil,o).
-knotenanz(binbaum(X,Lb,Rb),s(N)) :- knotenanz(Rb,R2), knotenanz(Lb,R1), add(R2,R1,N), natSymb(N).
+knotenanz(n(X,Lb,Rb),s(N)) :- knotenanz(Rb,R2), knotenanz(Lb,R1), add(R2,R1,N), natSymb(N).
