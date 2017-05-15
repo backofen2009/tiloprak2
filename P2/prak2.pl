@@ -27,26 +27,40 @@ tree(nil).
 tree(value,X,Y).
 
 binbaum(nil).
-binbaum(tree(V,X,Y)) :- binnbaum(X), binbaum(Y).
+binbaum(t(_,L,R)) :- binbaum(L), binbaum(R).
+
+
+% Testcase Baum t(a,nil,nil)).
+% 2Testcase Baum t(a,t(b,t(d,nil,nil),t(e,nil,nil)),t(c,nil,t(f,t(g,nil,nil),nil)))
+%BinBaum Test
+
+
+%binbaum(nil).
+%binbaum(tree(V,X,Y)) :- binnbaum(X), binbaum(Y).
+
 
 %construct(Root,Lb,Rb,Xneub) : Xneub ist der Baum mit
 %- baum wurzel root Root,
 %- linkem Teilbaum Lb und
 %- rechtem Teilbaum Rb.
 % 2 B)
-%leere liste kann nicht construct werden
+%leer kann nicht constructed werden
 construct(nil,nil,nil,nil).
 %werte in den root einfügen zusammenfügen
-construct(Root,Lb,Rb,tree(Root,Lb,Rb)):- binbaum(Lb), binbaum(Rb).
+construct(Root,Lb,Rb,Xb):- binbaum(Lb), binbaum(Rb).
 
 
 add(X,o,X).
-add(X,s(Y),R) :- add(s(X), Y, R).
+add(s(X),Y,s(R)) :- add(X, Y, R).
+
+
 
 % 2 A)
 %knotenanz(Xb,N) : N (nat. Zahl in symbolischer Darstellung) ist die Anzahl der Knoten des Baumes Xb.
-knotenanz(nil,0).
-knotenanz(tree(V,Lb,Rb),N) :- knotenanz(Lb,Cl), knotenanz(Rb,Cr), N is 1 + Cl + Cr.
+knotenanz(nil,o).
+knotenanz(tree(Root,nil,nil),s(o)).
+knotenanz(tree(V,Lb,Rb),s(h)) :- knotenanz(Lb,a), knotenanz(Rb,b),add(a,b,h).
+
 
 
 
@@ -55,3 +69,7 @@ knotenanz(tree(V,Lb,Rb),N) :- knotenanz(Lb,Cl), knotenanz(Rb,Cr), N is 1 + Cl + 
 rev(nil,nil).
 % das was man vorne gerausgenommen hat hinten wieder einfügen
 rev(list(X,Xs),Ys) :- rev(Xs,Rs), app(Rs,list(X,nil),Ys).
+
+
+
+rbt_count_nodes(t(_,L,R),N):-rbt_count_nodes(L,NL),rbt_count_nodes(R,NR),N=NL+NR+1.
