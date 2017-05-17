@@ -10,6 +10,7 @@ app(list(X,Y),A,list(X,S)) :- app(Y,A,S).
 % A)
 linListe(nil).
 linListe(list(X,Xs)) :- linListe(Xs).
+
 % B 1)
 member(nil,nil).
 member(X,list(X,Ys)).
@@ -45,9 +46,9 @@ binbaum(t(_,L,R)) :- binbaum(L), binbaum(R).
 %- rechtem Teilbaum Rb.
 % 2 B)
 %leer kann nicht constructed werden
-construct(nil,nil,nil,nil).
+%construct(nil,nil,nil,nil).
 %werte in den root einfügen zusammenfügen
-construct(Root,Lb,Rb,Xb):- binbaum(Lb), binbaum(Rb).
+construct(Root,Lb,Rb,Xb):- Xb= t(Root,Lb,Rb), binbaum(Lb), binbaum(Rb).
 
 
 add(X,o,X).
@@ -59,17 +60,21 @@ add(s(X),Y,s(R)) :- add(X, Y, R).
 %knotenanz(Xb,N) : N (nat. Zahl in symbolischer Darstellung) ist die Anzahl der Knoten des Baumes Xb.
 knotenanz(nil,o).
 knotenanz(tree(Root,nil,nil),s(o)).
-knotenanz(tree(V,Lb,Rb),s(h)) :- knotenanz(Lb,a), knotenanz(Rb,b),add(a,b,h).
-
+knotenanz(tree(V,Lb,Rb),s(H)) :- knotenanz(Lb,A), knotenanz(Rb,B),add(A,B,H).
 
 
 
 %rev(Xs,Ys).
 %leeres liste ist auch leer
 rev(nil,nil).
-% das was man vorne gerausgenommen hat hinten wieder einfügen
+% das was man vorne herausgenommen hat hinten wieder einfügen
 rev(list(X,Xs),Ys) :- rev(Xs,Rs), app(Rs,list(X,nil),Ys).
 
 
+rbt_count_nodes(t(_,L,R),N):-
+    rbt_count_nodes(L,NL),
+    rbt_count_nodes(R,NR),
+    N=NL+NR+1.
 
-rbt_count_nodes(t(_,L,R),N):-rbt_count_nodes(L,NL),rbt_count_nodes(R,NR),N=NL+NR+1.
+palindrom(nil).
+palindrom(Xs):- linListe(Xs) , rev(Xs,Xs).
