@@ -45,3 +45,7 @@ es_plus(Salt, Ealt, Kalt, Sziel, Eziel, Kziel) :- es(Salt, Ealt, Kalt, Szwischen
 
 %lvonM chekct ob Ws im wort ist
 lvonM(Ws) :- es_plus(Start,Ws,[Boden],_,[],[]), sigma_stern(Ws), start(Start),kellerboden(Boden).
+
+
+%TEST IS IN lvonM([0,0,1,1,1,0,0]).
+%TEST IS NOT IN lvonM([1,1,0,0,1]).
